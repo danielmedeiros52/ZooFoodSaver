@@ -1,0 +1,21 @@
+Item: apple
+  Delivered: 30
+  Used: 5
+  Expected end: 25
+  Actual end: 20
+  Delta: -5
+  Status: DISCREPANCY
+Item: banana
+  Delivered: 50
+  Used: 25
+  Expected end: 25
+  Actual end: 25
+  Delta: 0
+  Status: OK
+Item: kiwi
+  Delivered: missing
+  Used: 0
+  Expected end: missing
+  Actual end: missing
+  Status: UNKNOWN
+Summary: DISCREPANCY=1, UNKNOWN=1

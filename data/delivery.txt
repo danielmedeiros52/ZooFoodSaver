@@ -1,0 +1,3 @@
+banana=50
+apple="30"
+kiwi=abc
