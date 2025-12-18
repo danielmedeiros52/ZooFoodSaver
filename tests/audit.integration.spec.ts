@@ -35,12 +35,14 @@ describe('AuditService integration', () => {
     const result = await auditService.run({ deliveryPath: 'delivery', usagePath: 'usage', inventoryPath: 'inventory' });
 
     expect(result.textReport).toContain('banana');
+    expect(result.textReport).toContain('kiwi');
     expect(result.textReport).toContain('DISCREPANCY');
     expect(result.textReport).toContain('UNKNOWN');
     expect(result.textReport).toContain('SUMMARY');
     expect(result.textReport).toContain('Executed at');
     expect(result.warnings).toContain('Line 3 (kiwi): invalid or missing value \'abc\'');
-    expect(result.report.summary.total).toBe(2);
+    expect(result.report.summary.total).toBe(3);
+    expect(result.report.summary.unknownCount).toBe(1);
     expect(new Date(result.report.executedAt).toString()).not.toBe('Invalid Date');
   });
 });

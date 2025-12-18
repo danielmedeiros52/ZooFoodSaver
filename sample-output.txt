@@ -1,3 +1,11 @@
+[Nest] 6040  - 12/18/2025, 11:14:48 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 6040  - 12/18/2025, 11:14:48 PM     LOG [InstanceLoader] AuditModule dependencies initialized +16ms
+[Nest] 6040  - 12/18/2025, 11:14:48 PM     LOG [AuditService] Starting audit...
+[Nest] 6040  - 12/18/2025, 11:14:48 PM    WARN [DeliveryParser] Line 3 (kiwi): invalid or missing value 'abc'
+[Nest] 6040  - 12/18/2025, 11:14:48 PM     LOG [AuditService] Audit completed.
+=== AUDIT REPORT ===
+Executed at: 2025-12-18T23:14:48.662Z
+
 Item: apple
   Delivered: 30
   Used: 5
@@ -18,4 +26,8 @@ Item: kiwi
   Expected end: missing
   Actual end: missing
   Status: UNKNOWN
-Summary: DISCREPANCY=1, UNKNOWN=1
+
+--- SUMMARY ---
+Total items: 3
+DISCREPANCIES: 1
+UNKNOWN: 1
