@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { ReconciledItem } from '../domain/types';
+import { AuditReport, ReconciledItem } from '../../@types/audit';
 
 @Injectable()
 export class ReportFormatter {
-  format(items: ReconciledItem[]): string {
+  format(report: AuditReport): string {
     const lines: string[] = [];
-    for (const item of items) {
+    for (const item of report.items) {
       lines.push(this.formatItem(item));
     }
 
-    lines.push(this.formatSummary(items));
+    lines.push(this.formatSummary(report));
     return lines.join('\n');
   }
 
@@ -41,9 +41,7 @@ export class ReportFormatter {
     return sections.join('\n');
   }
 
-  private formatSummary(items: ReconciledItem[]): string {
-    const discrepancy = items.filter((item) => item.status === 'DISCREPANCY').length;
-    const unknown = items.filter((item) => item.status === 'UNKNOWN').length;
-    return `Summary: DISCREPANCY=${discrepancy}, UNKNOWN=${unknown}`;
+  private formatSummary(report: AuditReport): string {
+    return `Summary: total=${report.summary.total}, DISCREPANCY=${report.summary.discrepancyCount}, UNKNOWN=${report.summary.unknownCount}`;
   }
 }

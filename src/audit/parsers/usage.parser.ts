@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UsageMap } from '../domain/types';
+import { UsageMap } from '../../@types/audit';
 
 @Injectable()
 export class UsageParser {

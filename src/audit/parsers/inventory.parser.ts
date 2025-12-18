@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InventoryMap } from '../domain/types';
+import { InventoryMap } from '../../@types/audit';
 
 interface InventoryEntry {
   readonly item: string;

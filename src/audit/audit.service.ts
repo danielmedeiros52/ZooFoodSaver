@@ -4,12 +4,20 @@ import { UsageParser } from './parsers/usage.parser';
 import { InventoryParser } from './parsers/inventory.parser';
 import { FileSystemService } from './infra/file-system.service';
 import { reconcileStock } from './domain/reconciler';
+import { buildAuditReport } from './domain/report';
+import { AuditReport } from '../@types/audit';
 import { ReportFormatter } from './report/report.formatter';
 
 export interface AuditRequest {
   readonly deliveryPath: string;
   readonly usagePath: string;
   readonly inventoryPath: string;
+}
+
+export interface AuditRunResult {
+  readonly report: AuditReport;
+  readonly textReport: string;
+  readonly warnings: string[];
 }
 
 @Injectable()
@@ -24,7 +32,7 @@ export class AuditService {
     private readonly reportFormatter: ReportFormatter,
   ) {}
 
-  async run(request: AuditRequest): Promise<string> {
+  async run(request: AuditRequest): Promise<AuditRunResult> {
     this.logger.log('Starting audit...');
     try {
       const [deliveryContent, usageContent, inventoryContent] = await Promise.all([
@@ -38,10 +46,11 @@ export class AuditService {
       const inventory = this.inventoryParser.parse(inventoryContent);
 
       const reconciled = reconcileStock(deliveryResult.delivered, usage, inventory);
-      const report = this.reportFormatter.format(reconciled);
+      const report = buildAuditReport(reconciled);
+      const textReport = this.reportFormatter.format(report);
 
       this.logger.log('Audit completed.');
-      return report;
+      return { report, textReport, warnings: deliveryResult.warnings };
     } catch (error) {
       this.logger.error('Audit failed', error instanceof Error ? error.stack : String(error));
       throw error;

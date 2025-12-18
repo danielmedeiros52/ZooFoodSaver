@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { DeliveryMap, DeliveryParseResult } from '../domain/types';
+import { DeliveryMap, DeliveryParseResult } from '../../@types/audit';
 
 @Injectable()
 export class DeliveryParser {

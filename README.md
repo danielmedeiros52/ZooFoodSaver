@@ -30,6 +30,7 @@ UNKNOWN zebra fish
 MISSING grizzly salmon
 EXTRA panda bamboo
 OK giraffe acacia
+Summary: total=4, DISCREPANCY=2, UNKNOWN=1
 ```
 
 ## Architecture

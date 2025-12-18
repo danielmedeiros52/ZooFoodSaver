@@ -12,14 +12,14 @@ async function bootstrap(): Promise<void> {
     const args = parseArgs(process.argv.slice(2));
     appContext = await NestFactory.createApplicationContext(AuditModule, { logger });
     const auditService = appContext.get(AuditService);
-    const report = await auditService.run({
+    const { textReport } = await auditService.run({
       deliveryPath: args.delivery,
       usagePath: args.usage,
       inventoryPath: args.inventory,
     });
 
     // eslint-disable-next-line no-console
-    console.log(report);
+    console.log(textReport);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logger.error(`Audit failed: ${message}`);

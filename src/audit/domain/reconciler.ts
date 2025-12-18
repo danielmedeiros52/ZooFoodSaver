@@ -1,4 +1,4 @@
-import { DeliveryMap, InventoryMap, ReconciledItem, Status, UsageMap } from './types';
+import { DeliveryMap, InventoryMap, ReconciledItem, Status, UsageMap } from '../../@types/audit';
 
 function calculateExpected(delivered: number | undefined, used: number): number | undefined {
   if (delivered === undefined) {
