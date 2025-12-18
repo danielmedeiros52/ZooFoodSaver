@@ -31,7 +31,6 @@ export class DeliveryParser {
       const normalized = this.normalizeValue(rawValue);
       if (normalized === undefined) {
         warnings.push(`Line ${index + 1} (${key}): invalid or missing value '${rawValue}'`);
-        continue;
       }
 
       delivered[key] = normalized;

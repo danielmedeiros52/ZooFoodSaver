@@ -26,11 +26,37 @@ The CLI prints the reconciliation report to stdout and exits with non-zero statu
 ### Example output
 
 ```
-UNKNOWN zebra fish
-MISSING grizzly salmon
-EXTRA panda bamboo
-OK giraffe acacia
-Summary: total=4, DISCREPANCY=2, UNKNOWN=1
+[Nest] ... LOG [AuditService] Starting audit...
+[Nest] ... WARN [DeliveryParser] Line 3 (kiwi): invalid or missing value 'abc'
+[Nest] ... LOG [AuditService] Audit completed.
+=== AUDIT REPORT ===
+Executed at: 2025-12-18T23:14:48.662Z
+
+Item: apple
+  Delivered: 30
+  Used: 5
+  Expected end: 25
+  Actual end: 20
+  Delta: -5
+  Status: DISCREPANCY
+Item: banana
+  Delivered: 50
+  Used: 25
+  Expected end: 25
+  Actual end: 25
+  Delta: 0
+  Status: OK
+Item: kiwi
+  Delivered: missing
+  Used: 0
+  Expected end: missing
+  Actual end: missing
+  Status: UNKNOWN
+
+--- SUMMARY ---
+Total items: 3
+DISCREPANCIES: 1
+UNKNOWN: 1
 ```
 
 ## Architecture
@@ -51,7 +77,7 @@ Summary: total=4, DISCREPANCY=2, UNKNOWN=1
 - Treat the CLI as a thin composition layer; no global state is shared across runs.
 
 ## Assumptions
-- Delivery keys are well-formed; invalid or empty values are treated as missing and warned.
+- Delivery keys are well-formed; invalid or empty values are warned and forwarded as `missing` so they surface as `UNKNOWN` in the report.
 - Usage and inventory files are syntactically valid as provided.
 - Missing delivered or inventory entries lead to an `UNKNOWN` status in the report.
 

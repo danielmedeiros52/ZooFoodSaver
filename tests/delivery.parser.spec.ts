@@ -20,13 +20,13 @@ describe('DeliveryParser', () => {
 
   it('treats empty value as missing', () => {
     const result = parser.parse('banana=');
-    expect(result.delivered).toEqual({});
+    expect(result.delivered).toEqual({ banana: undefined });
     expect(result.warnings).toHaveLength(1);
   });
 
   it('treats invalid value as missing and warns', () => {
     const result = parser.parse('banana=abc');
-    expect(result.delivered).toEqual({});
+    expect(result.delivered).toEqual({ banana: undefined });
     expect(result.warnings[0]).toContain('invalid');
   });
 });
