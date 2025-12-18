@@ -1,7 +1,9 @@
-import { Test } from '@nestjs/testing';
-import { AuditModule } from '../src/audit/audit.module';
 import { AuditService } from '../src/audit/audit.service';
 import { FileSystemService } from '../src/audit/infra/file-system.service';
+import { DeliveryParser } from '../src/audit/parsers/delivery.parser';
+import { UsageParser } from '../src/audit/parsers/usage.parser';
+import { InventoryParser } from '../src/audit/parsers/inventory.parser';
+import { ReportFormatter } from '../src/audit/report/report.formatter';
 
 class InMemoryFileSystem extends FileSystemService {
   constructor(private readonly files: Record<string, string>) {
@@ -19,20 +21,17 @@ class InMemoryFileSystem extends FileSystemService {
 
 describe('AuditService integration', () => {
   it('produces a full report with mixed statuses', async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AuditModule],
-    })
-      .overrideProvider(FileSystemService)
-      .useValue(
-        new InMemoryFileSystem({
-          delivery: 'banana=50\napple="30"\nkiwi=abc',
-          usage: 'food,quantity\nbanana,20\napple,5\nbanana,5',
-          inventory: '[{"item":"banana","quantity":25},{"item":"apple","quantity":20}]',
-        }),
-      )
-      .compile();
-
-    const auditService = moduleRef.get(AuditService);
+    const auditService = new AuditService(
+      new DeliveryParser(),
+      new UsageParser(),
+      new InventoryParser(),
+      new InMemoryFileSystem({
+        delivery: 'banana=50\napple="30"\nkiwi=abc',
+        usage: 'food,quantity\nbanana,20\napple,5\nbanana,5',
+        inventory: '[{"item":"banana","quantity":25},{"item":"apple","quantity":20}]',
+      }),
+      new ReportFormatter(),
+    );
     const report = await auditService.run({ deliveryPath: 'delivery', usagePath: 'usage', inventoryPath: 'inventory' });
 
     expect(report).toContain('banana');
