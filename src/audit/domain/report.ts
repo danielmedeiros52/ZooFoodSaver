@@ -20,7 +20,7 @@ export function buildAuditSummary(items: ReconciledItem[]): AuditSummary {
   };
 }
 
-export function buildAuditReport(items: ReconciledItem[]): AuditReport {
+export function buildAuditReport(items: ReconciledItem[], executedAt = new Date()): AuditReport {
   const summary = buildAuditSummary(items);
-  return { items, summary };
+  return { items, summary, executedAt: executedAt.toISOString() };
 }

@@ -46,7 +46,8 @@ export class AuditService {
       const inventory = this.inventoryParser.parse(inventoryContent);
 
       const reconciled = reconcileStock(deliveryResult.delivered, usage, inventory);
-      const report = buildAuditReport(reconciled);
+      const executionTime = new Date();
+      const report = buildAuditReport(reconciled, executionTime);
       const textReport = this.reportFormatter.format(report);
 
       this.logger.log('Audit completed.');
