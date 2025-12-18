@@ -28,4 +28,5 @@ export interface DeliveryParseResult {
 export interface AuditReport {
   readonly items: ReconciledItem[];
   readonly summary: AuditSummary;
+  readonly executedAt: string;
 }
